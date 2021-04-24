@@ -3,8 +3,6 @@ require 'spec_helper'
 
 require 'simplecov'
 SimpleCov.start
-require 'capybara/rails'
-
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
