@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Weather API Endpoints" do
   describe "weather happy path" do
     it "returns" do
-      get "/api/v1/forecast"
+      get "/api/v1/forecast?location=denver,co"
       expect(response).to be_successful
       weather = JSON.parse(response.body, symbolize_names:true)
 
