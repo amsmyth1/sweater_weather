@@ -1,5 +1,8 @@
 # Sweater Weather API Contract
 
+## Postman
+View API endpoints consumed on [Postman](https://www.getpostman.com/collections/d339161ea943b1f5e890)
+
 ## Endpoints
 
 | HTTP verbs | Paths  | Used for | Output |
@@ -158,3 +161,10 @@
       }
     }
   ```
+
+## Unsplash liscencing
+
+`?utm_source=your_app_name&utm_medium=referral`
+
+- Suggested HTML
+`Photo by <a href="https://unsplash.com/@anniespratt?utm_source=your_app_name&utm_medium=referral">Annie Spratt</a> on <a href="https://unsplash.com/?utm_source=your_app_name&utm_medium=referral">Unsplash</a>`
