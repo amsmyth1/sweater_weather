@@ -1,5 +1,8 @@
 # Sweater Weather API Contract
 
+## Postman
+View API endpoints consumed on [Postman](https://www.getpostman.com/collections/d339161ea943b1f5e890)
+
 ## Endpoints
 
 | HTTP verbs | Paths  | Used for | Output |
