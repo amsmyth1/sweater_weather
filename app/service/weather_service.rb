@@ -4,12 +4,16 @@ class WeatherService
     response = Faraday.get("https://api.openweathermap.org/data/2.5/onecall?lat=#{coords[:lat]}&lon=#{coords[:lng]}&exclude=alerts,minutely&appid=#{ENV['weather_api_key']}&units=imperial")
     raw_data = JSON.parse(response.body, symbolize_names: true)
 
-    city_info = {}
-    city_info[:current_weather] = current_weather_data(raw_data)
-    city_info[:daily_weather] = daily_weather_data(raw_data)
-    city_info[:hourly_weather] = hourly_weather_data(raw_data)
-    city_info[:photo_key_word] = current_weather_data(raw_data)[:description]
-    city_info
+    if raw_data[:cod] == "400"
+      {error: "bad coordinates"}
+    else
+      city_info = {}
+      city_info[:current_weather] = current_weather_data(raw_data)
+      city_info[:daily_weather] = daily_weather_data(raw_data)
+      city_info[:hourly_weather] = hourly_weather_data(raw_data)
+      city_info[:photo_key_word] = current_weather_data(raw_data)[:description]
+      city_info
+    end
   end
 
   def self.daily_weather_data(raw_data)
