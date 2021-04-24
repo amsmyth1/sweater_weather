@@ -72,7 +72,7 @@ This project was tested with:
 
    ```
 ### Project Design
-<p style="text-align:center;"><img src="sweater_weather_design.jpg" width="750"></p>
+<p style="text-align:center;"><img src="sweater_weather_design.jpg" width="900"></p>
 
 #### APIs Consumed
 - For location coordinates and roadtrip data: [MapQuest](https://developer.mapquest.com/)
