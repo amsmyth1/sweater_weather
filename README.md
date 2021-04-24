@@ -72,6 +72,7 @@ This project was tested with:
 
    ```
 ### Project Design
+Below is an example of how the API application is designed to consume multiple APIs so the front end can easily hook into the exposed endpoints (noted in black).
 <p style="text-align:center;"><img src="sweater_weather_design.jpg" width="900"></p>
 
 #### APIs Consumed
