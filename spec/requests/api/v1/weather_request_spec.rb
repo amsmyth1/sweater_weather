@@ -36,6 +36,19 @@ RSpec.describe "Weather API Endpoints" do
   describe "photo" do
     it "sends a photo for the page" do
 
+      get "/api/v1/backgrounds"
+      expect(response).to be_successful
+      background = JSON.parse(response.body, symbolize_names:true)
+
+      expect(background).to be_a(Hash)
+      expect(background[:data]).to be_a(Hash)
+      expect(background[:data].keys).to eq([:id, :type, :attributes])
+      expect(background[:data][:type]).to eq("image")
+      expect(background[:data][:attributes]).to be_a(Hash)
+      expect(background[:data][:attributes][:image]).to be_a(Hash)
+      expect(background[:data][:attributes][:image].keys).to eq([:location, :image_url, :credit])
+      expect(background[:data][:attributes][:image][:credits]).to be_a(Hash)
+      expect(background[:data][:attributes][:image][:credits].keys).to eq([:source, :author, :logo])
     end
   end
 end
