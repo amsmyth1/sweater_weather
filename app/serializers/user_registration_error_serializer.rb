@@ -1,7 +1,7 @@
 class UserRegistrationErrorSerializer
   def as_json(_options = nil)
     {
-      error: "email is associated with an account"
+      error: "a field is not correct"
     }
   end
 end

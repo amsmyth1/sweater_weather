@@ -53,10 +53,10 @@ RSpec.describe "User Registration API Endpoint" do
       expect(response.status).to eq(400)
       data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data[:error]).to eq("email is associated with an account")
+      expect(data[:error]).to eq("a field is not correct")
     end
   end
-  xdescribe "user registration sad path" do
+  describe "user registration sad path" do
     it "creates and new user and returns their email and new api key when they are successfully registered" do
       user_params = ({
                       email: "host_eamil@domain.com",
@@ -68,8 +68,10 @@ RSpec.describe "User Registration API Endpoint" do
       post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
       created_user = User.last
 
-      expect(response).to be_successful
       expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
     end
   end
 end
