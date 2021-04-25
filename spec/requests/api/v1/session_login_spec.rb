@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe "User Login API Endpoint" do
   before :each do
     user_params = ({
@@ -18,7 +20,7 @@ RSpec.describe "User Login API Endpoint" do
         password: "password"
       })
       headers = {"CONTENT_TYPE" => "application/json"}
-      post "/api/v1/sessions"
+      post "/api/v1/sessions", headers: headers, params: JSON.generate(user_params)
 
       data = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -31,47 +33,29 @@ RSpec.describe "User Login API Endpoint" do
       expect(data[:attributes][:password_digest]).to eq(nil)
       expect(data[:attributes][:password_confirmation]).to eq(nil)
     end
-
-    xit "finds an existing user if emails matches and returns their email and stored api key when they try to reregister" do
+  end
+  describe "user registration sad path" do
+    it "creates and new user and returns their email and new api key when they are successfully registered" do
       user_params = ({
         email: "whatever@example.com",
-        password: "password",
-        password_confirmation: "password"
+        password: "incorrect_password"
       })
       headers = {"CONTENT_TYPE" => "application/json"}
+      post "/api/v1/sessions", headers: headers, params: JSON.generate(user_params)
 
-      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
-      @created_user = User.last
-
-      user_params = ({
-        email: "whatever@example.com",
-        password: "password",
-        password_confirmation: "password"
-      })
-      headers = {"CONTENT_TYPE" => "application/json"}
-
-      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
-      @created_user = User.last
-
-      expect(response.status).to eq(400)
+      expect(response.status).to eq(401)
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:error]).to eq("a field is not correct")
     end
   end
-  xdescribe "user registration sad path" do
+  describe "user registration edge cas - no body path" do
     it "creates and new user and returns their email and new api key when they are successfully registered" do
-      user_params = ({
-                      email: "host_eamil@domain.com",
-                      password_digest: "password",
-                      password_confirmation: ""
-                    })
+      user_params = ({email: "whatever@example.com"})
       headers = {"CONTENT_TYPE" => "application/json"}
+      post "/api/v1/sessions", headers: headers, params: JSON.generate(user_params)
 
-      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
-      @created_user = User.last
-
-      expect(response.status).to eq(400)
+      expect(response.status).to eq(401)
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:error]).to eq("a field is not correct")

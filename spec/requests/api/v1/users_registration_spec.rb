@@ -61,7 +61,102 @@ RSpec.describe "User Registration API Endpoint" do
       user_params = ({
                       email: "host_eamil@domain.com",
                       password_digest: "password",
+                      password_confirmation: "not_a_matching_password"
+                    })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
+      created_user = User.last
+
+      expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
+  end
+  describe "user registration edge case path" do
+    it "sends an error when an attribute is blank or missing" do
+      user_params = ({
+                      email: "host_eamil@domain.com",
+                      password_digest: "password",
                       password_confirmation: ""
+                    })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
+      created_user = User.last
+
+      expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
+    it "sends an error when an attribute is blank or missing" do
+      user_params = ({
+                      email: "",
+                      password_digest: "password",
+                      password_confirmation: "password"
+                    })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
+      created_user = User.last
+
+      expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
+    it "sends an error when an attribute is blank or missing" do
+      user_params = ({
+                      email: "host_eamil@domain.com",
+                      password_digest: "",
+                      password_confirmation: "password"
+                    })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
+      created_user = User.last
+
+      expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
+    it "sends an error when an attribute is blank or missing" do
+      user_params = ({
+                      email: "host_eamil@domain.com",
+                      password_digest: "password"
+                    })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
+      created_user = User.last
+
+      expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
+    it "sends an error when an attribute is blank or missing" do
+      user_params = ({
+                      email: "host_eamil@domain.com",
+                      password_confirmation: "password"
+                    })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
+      created_user = User.last
+
+      expect(response.status).to eq(400)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
+    it "sends an error when an attribute is blank or missing" do
+      user_params = ({
+                      password_digest: "password",
+                      password_confirmation: "password"
                     })
       headers = {"CONTENT_TYPE" => "application/json"}
 
