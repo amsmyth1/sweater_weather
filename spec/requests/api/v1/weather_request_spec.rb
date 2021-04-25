@@ -12,14 +12,15 @@ RSpec.describe "Weather API Endpoints" do
       expect(weather[:data].keys).to eq([:id, :type, :attributes])
       expect(weather[:data][:type]).to eq("forecast")
       expect(weather[:data][:attributes]).to be_a(Hash)
+      expect(weather[:data][:attributes].class).to eq(Hash)
       expect(weather[:data][:attributes].keys).to eq([:current_weather, :daily_weather, :hourly_weather])
       expect(weather[:data][:attributes][:current_weather]).to be_a(Hash)
-      expect(weather[:data][:attributes][:current_weather].keys).to eq([:dateime, :temperature, :sunrise, :sunset, :feels_like, :humidity, :uvi, :visibility, :conditions, :icon])
+      expect(weather[:data][:attributes][:current_weather].keys).to eq([:datetime, :sunrise, :sunset, :temperature, :feels_like, :humidity, :uvi, :visibility, :conditions, :icon])
       expect(weather[:data][:attributes][:current_weather][:temperature]).to be_a(Float)
       expect(weather[:data][:attributes][:current_weather][:feels_like]).to be_a(Float)
-      expect(weather[:data][:attributes][:current_weather][:humidity]).to be_a(Float)
+      expect(weather[:data][:attributes][:current_weather][:humidity]).to be_a(Integer)
       expect(weather[:data][:attributes][:current_weather][:uvi]).to be_a(Float)
-      expect(weather[:data][:attributes][:current_weather][:visibility]).to be_a(Float)
+      expect(weather[:data][:attributes][:current_weather][:visibility]).to be_a(Integer)
       expect(weather[:data][:attributes][:daily_weather]).to be_an(Array)
       expect(weather[:data][:attributes][:daily_weather].count).to eq(5)
       expect(weather[:data][:attributes][:daily_weather].first).to be_a(Hash)
@@ -28,7 +29,6 @@ RSpec.describe "Weather API Endpoints" do
       expect(weather[:data][:attributes][:hourly_weather].count).to eq(8)
       expect(weather[:data][:attributes][:hourly_weather].first).to be_a(Hash)
       expect(weather[:data][:attributes][:hourly_weather].first.keys).to eq([:time, :temperature, :conditions, :icon])
-      expect(weather[:data][:attributes][:hourly_weather].first[:time]).to eq("14:00:00")
 
 
     end
