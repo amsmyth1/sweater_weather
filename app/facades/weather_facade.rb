@@ -12,6 +12,6 @@ class WeatherFacade
        []
      else
        OpenStruct.new(background)
-     end 
+     end
   end
 end
