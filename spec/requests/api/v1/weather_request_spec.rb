@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Weather API Endpoints" do
   describe "weather happy path" do
-    it "returns" do
+    it "returns daily/hourly/current weather information" do
       get "/api/v1/forecast?location=denver,co"
       expect(response).to be_successful
       weather = JSON.parse(response.body, symbolize_names:true)
@@ -47,7 +47,7 @@ RSpec.describe "Weather API Endpoints" do
   describe "photo" do
     it "sends a photo for the page" do
 
-      get "/api/v1/backgrounds"
+      get "/api/v1/backgrounds?location=denver,co"
       expect(response).to be_successful
       background = JSON.parse(response.body, symbolize_names:true)
 
