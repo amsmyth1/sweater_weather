@@ -5,13 +5,15 @@ class PhotoService
     raw_data = JSON.parse(response.body, symbolize_names: true)
     photo = raw_data[:results].sample
     background = {}
-    background[:image_url] = photo[:urls][:full]
-    background[:location] = location
+    image = {}
+    image[:location] = location
+    image[:image_url] = photo[:urls][:full]
     credit = {}
     credit[:source] = "unsplash.com"
     credit[:author] = photo[:user][:name]
     credit[:logo] = photo[:user][:profile_image][:small]
-    background[:credit] = credit
+    image[:credit] = credit
+    background[:image] = image
     OpenStruct.new(background)
   end
 end

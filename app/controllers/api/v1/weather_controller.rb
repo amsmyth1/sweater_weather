@@ -10,8 +10,7 @@ class Api::V1::WeatherController < ApplicationController
     end
     # binding.pry
     # search_key_word = weather_info[:search_key_word]
-    @photo = PhotoService.search(params[:city])
-  end
+    end
 
   def photo
     photo = PhotoService.search(params[:location])
