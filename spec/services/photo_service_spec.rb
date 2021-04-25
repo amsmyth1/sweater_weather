@@ -14,9 +14,16 @@ RSpec.describe "PhotoService", type: :feature do
       end
     end
     describe "sad path" do
-      it "returns " do
+      it "returns an empty array when a blank location is passed" do
+        photos = PhotoService.search("akjhgbasdhjb")
 
+        expect(photos.class).to eq(Array)
       end
-    end 
+      it "returns an empty array when a blank location is passed" do
+        photos = PhotoService.search("")
+
+        expect(photos.class).to eq(Array)
+      end
+    end
   end
 end

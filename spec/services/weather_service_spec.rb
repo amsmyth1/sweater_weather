@@ -26,15 +26,5 @@ RSpec.describe "WeatherService", type: :feature do
         expect(info[:hourly_weather].first.keys).to eq([:time, :temperature, :conditions, :icon])
       end
     end
-    xdescribe "sad path" do
-      it "should handle bad lat and lng" do
-        coords = {:lat=>1, :lng=>-3178456182345671}
-        info = WeatherService.get_city_info(coords)
-
-        expect(info.class).to eq(Hash)
-        expect(info.keys).to eq([:error])
-        expect(info[:error]).to eq("bad coordinates")
-      end
-    end
   end
 end

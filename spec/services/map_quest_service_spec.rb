@@ -18,10 +18,10 @@ RSpec.describe "MapQuestService", type: :feature do
         expect(answer).to eq(coords)
       end
     end
-    describe "sad path - no city" do
-      it "should return a hash by default when a bad city is passed" do
+    describe "edge case - no city" do
+      it "should return a hash with denver coordinates by default when a blank city is passed" do
         coords = MapQuestService.coordinates("")
-          answer = {:lat=>39.738453, :lng=>-104.984853}
+        answer = {:lat=>39.738453, :lng=>-104.984853}
 
         expect(answer).to eq(coords)
       end
