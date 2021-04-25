@@ -1,5 +1,20 @@
 class WeatherService
 
+  def self.one_call(coords)
+    one_call = {}
+    if get_city_info(coords)[:error] == nil
+      one_call[:photo_key_word] = get_city_info(coords)[:photo_key_word]
+      weather_params = {}
+      weather_params[:current_weather] = get_city_info(coords)[:current_weather]
+      weather_params[:hourly_weather] = get_city_info(coords)[:hourly_weather]
+      weather_params[:daily_weather] = get_city_info(coords)[:daily_weather]
+      one_call[:weather] = OpenStruct.new(weather_params)
+      one_call
+    else
+      {error: "bad coordinates"}
+    end
+  end
+
   def self.get_city_info(coords)
     response = Faraday.get("https://api.openweathermap.org/data/2.5/onecall?lat=#{coords[:lat]}&lon=#{coords[:lng]}&exclude=alerts,minutely&appid=#{ENV['weather_api_key']}&units=imperial")
     raw_data = JSON.parse(response.body, symbolize_names: true)
@@ -11,7 +26,7 @@ class WeatherService
       city_info[:current_weather] = current_weather_data(raw_data)
       city_info[:daily_weather] = daily_weather_data(raw_data)
       city_info[:hourly_weather] = hourly_weather_data(raw_data)
-      city_info[:photo_key_word] = current_weather_data(raw_data)[:description]
+      city_info[:photo_key_word] = current_weather_data(raw_data)[:conditions]
       city_info
     end
   end
@@ -65,9 +80,5 @@ class WeatherService
     current_weather_data[:conditions] = raw_data[:current][:weather].first[:description]
     current_weather_data[:icon] = raw_data[:current][:weather].first[:icon]
     current_weather_data
-  end
-
-  def self.one_call(coords)
-    get_city_info(coords)
   end
 end
