@@ -7,7 +7,7 @@ class WeatherService
     weather_params[:current_weather] = get_city_info(coords)[:current_weather]
     weather_params[:hourly_weather] = get_city_info(coords)[:hourly_weather]
     weather_params[:daily_weather] = get_city_info(coords)[:daily_weather]
-    one_call[:weather] = OpenStruct.new(weather_params)
+    one_call[:weather] = weather_params
     one_call
   end
 
