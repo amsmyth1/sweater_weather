@@ -5,4 +5,13 @@ class WeatherFacade
     weather_info = WeatherService.one_call(coordinates)
     OpenStruct.new(weather_info[:weather])
   end
+
+  def self.background_info(query)
+    background = PhotoService.search(query)
+     if background == []
+       []
+     else
+       OpenStruct.new(background)
+     end 
+  end
 end

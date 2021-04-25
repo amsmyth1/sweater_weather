@@ -18,7 +18,8 @@ class PhotoService
       credit[:logo] = photo[:user][:profile_image][:small]
       image[:credit] = credit
       background[:image] = image
-      OpenStruct.new(background)
+      # OpenStruct.new(background)
+      background
     end
   end
 end

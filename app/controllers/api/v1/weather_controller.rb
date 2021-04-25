@@ -1,14 +1,11 @@
 class Api::V1::WeatherController < ApplicationController
 
   def forecast
-    # coordinates = MapQuestService.coordinates(params[:location])
-    # weather_info = WeatherService.one_call(coordinates)
-    # render json: ForecastSerializer.new(weather_info[:weather])
     render json: ForecastSerializer.new(WeatherFacade.forecast_info(params[:location]))
     end
 
   def photo
-    photo = PhotoService.search(params[:location])
+    photo = WeatherFacade.background_info(params[:location])
     if photo.empty?
       render json: NullSerializer.new
     else
