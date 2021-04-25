@@ -33,6 +33,17 @@ RSpec.describe "Weather API Endpoints" do
 
     end
   end
+  describe "weather sad path" do
+    it "returns" do
+      get "/api/v1/forecast?location=njnasdfjn"
+      expect(response).to be_successful
+      weather = JSON.parse(response.body, symbolize_names:true)
+
+      expect(weather).to be_a(Hash)
+      expect(weather[:data]).to eq(nil)
+      expect(weather[:error]).to eq("")
+    end
+  end
   describe "photo" do
     it "sends a photo for the page" do
 
