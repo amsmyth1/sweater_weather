@@ -16,6 +16,7 @@ RSpec.describe "Urban Area Salaries API Endpoint" do
       expect(philly_info[:data][:attributes][:destination]).to eq("philadelphia")
 
       expect(philly_info[:data][:attributes][:salaries]).to be_an(Array)
+      expect(philly_info[:data][:attributes][:salaries].count).to be_between(0, 7).inclusive
       expect(philly_info[:data][:attributes][:salaries].first).to be_a(Hash)
       expect(philly_info[:data][:attributes][:salaries].first.keys).to eq([:title, :min, :max])
       expect(philly_info[:data][:attributes][:salaries].first[:title]).to be_a(String)

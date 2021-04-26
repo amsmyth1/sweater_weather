@@ -28,4 +28,12 @@ RSpec.describe "SalaryService", type: :feature do
       expect(info[:max]).to be_a(String)
     end
   end
+  describe "::city_salary_info(location)" do
+    it "hits an endpoint to get the city urban id" do
+      info = SalaryService.city_salary_info("denver")
+
+      expect(info).to be_an(Array)
+      expect(info.count).to be_between(0, 7).inclusive
+    end
+  end
 end
