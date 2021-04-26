@@ -27,8 +27,15 @@ RSpec.describe "Urban Area Salaries API Endpoint" do
     end
   end
   describe "sad path" do
-    it "returns an error if the city is not recognizable " do
+    it "returns null if the city is not recognizable " do
       get "/api/v1/salaries?destination=jkansfdkjasdnfjksandc"
+      expect(response).to be_successful
+      expect(response.status).to eq(204)
+    end
+  end
+  describe "edge case" do
+    it "returns an null if the city param is left out" do
+      get "/api/v1/salaries"
       expect(response).to be_successful
       expect(response.status).to eq(204)
     end
