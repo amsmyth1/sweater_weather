@@ -39,7 +39,7 @@ class Api::V1::SalariesController < ApplicationController
     salary_info = {}
     salary_info[:title] = salary[:job][:title]
     salary_info[:min] = present_salary(salary[:salary_percentiles].values.min)
-    salary_info[:max] = salary[:salary_percentiles].values.max
+    salary_info[:max] = present_salary(salary[:salary_percentiles].values.max)
     salary_info
   end
 
@@ -47,9 +47,16 @@ class Api::V1::SalariesController < ApplicationController
   end
 
   def present_salary(salary)
-    binding.pry
-    final_salary = ""
+    final_salary = []
+    number_length = salary.floor(0).to_s.length
     salary.floor(0).to_s.split("").each_with_index do |character, index|
-
+      if index == (number_length - 3)
+        final_salary << ","
+        final_salary << character
+      else
+        final_salary << character
+      end
+    end
+    "$#{final_salary.join}.#{salary.round(2).to_s.split(//).last(2).join}"
   end
 end
