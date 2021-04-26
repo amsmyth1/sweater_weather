@@ -5,6 +5,11 @@ class SalaryService
     raw_data = JSON.parse(response.body, symbolize_names: true)
     raw_data[:ua_id]
   end
+  def self.full_name(location)
+    response = Faraday.get("https://api.teleport.org/api/urban_areas/slug:#{location}/")
+    raw_data = JSON.parse(response.body, symbolize_names: true)
+    raw_data[:full_name]
+  end
 
   def self.city_salary_info(location)
     salaries = city_all_salary_info(location)

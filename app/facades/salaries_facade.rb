@@ -10,15 +10,16 @@ class SalariesFacade
   end
 
   def self.city_forecast(location)
-    response = Faraday.get("https://api.teleport.org/api/urban_areas/slug:#{location}/")
-    raw_data = JSON.parse(response.body, symbolize_names: true)
-    coords = MapQuestService.coordinates(raw_data[:full_name])
+    # response = Faraday.get("https://api.teleport.org/api/urban_areas/slug:#{location}/")
+    # raw_data = JSON.parse(response.body, symbolize_names: true)
+    coords = MapQuestService.coordinates(SalaryService.full_name(location))
 
-    response = Faraday.get("https://api.openweathermap.org/data/2.5/onecall?lat=#{coords[:lat]}&lon=#{coords[:lng]}&exclude=alerts,minutely&appid=#{ENV['weather_api_key']}&units=imperial")
-    raw_data = JSON.parse(response.body, symbolize_names: true)
+    # response = Faraday.get("https://api.openweathermap.org/data/2.5/onecall?lat=#{coords[:lat]}&lon=#{coords[:lng]}&exclude=alerts,minutely&appid=#{ENV['weather_api_key']}&units=imperial")
+    # raw_data = JSON.parse(response.body, symbolize_names: true)
+    a = WeatherService.get_city_info(coords)
     forecast = {}
-    forecast[:summary] = raw_data[:current][:weather].first[:description]
-    forecast[:temperature] = raw_data[:current][:temp]
+    forecast[:summary] = a[:current_weather][:conditions]
+    forecast[:temperature] = a[:current_weather][:temperature]
     forecast
   end
 end
