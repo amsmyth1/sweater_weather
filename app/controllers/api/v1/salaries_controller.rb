@@ -4,23 +4,23 @@ class Api::V1::SalariesController < ApplicationController
     city_info = {}
     city_info[:destination] = params[:destination]
     city_info[:forecast] = city_forecast(params[:destination])
-    city_info[:salaries] = city_salary_info(params[:destination])
+    city_info[:salaries] = SalaryService.city_salary_info(params[:destination])
     city_info
     final_city_info = OpenStruct.new(city_info)
     render json: SalariesSerializer.new(final_city_info)
   end
 
-  def city_salary_info(location)
-    salaries = SalaryService.city_all_salary_info(location)
-
-    final_city_salaries = salaries.select do |salary|
-      job_titles = ["Data Analyst", "Data Scientist", "Mobile Developer",
-      "QA Engineer", "Software Engineer", "Systems Administrator", "Web Developer"]
-
-      job_titles.any?(salary[:title])
-    end
-    final_city_salaries
-  end
+  # def city_salary_info(location)
+  #   salaries = SalaryService.city_all_salary_info(location)
+  #
+  #   final_city_salaries = salaries.select do |salary|
+  #     job_titles = ["Data Analyst", "Data Scientist", "Mobile Developer",
+  #     "QA Engineer", "Software Engineer", "Systems Administrator", "Web Developer"]
+  #
+  #     job_titles.any?(salary[:title])
+  #   end
+  #   final_city_salaries
+  # end
 
   private
   # def city_all_salary_info(location)
