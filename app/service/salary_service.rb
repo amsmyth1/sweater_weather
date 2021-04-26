@@ -1,10 +1,21 @@
 class SalaryService
 
-
   def self.search_ua_id(location)
     response = Faraday.get("https://api.teleport.org/api/urban_areas/slug:#{location}/")
     raw_data = JSON.parse(response.body, symbolize_names: true)
     raw_data[:ua_id]
+  end
+
+  def self.city_salary_info(location)
+    salaries = city_all_salary_info(location)
+
+    final_city_salaries = salaries.select do |salary|
+      job_titles = ["Data Analyst", "Data Scientist", "Mobile Developer",
+      "QA Engineer", "Software Engineer", "Systems Administrator", "Web Developer"]
+
+      job_titles.any?(salary[:title])
+    end
+    final_city_salaries
   end
 
   def self.city_all_salary_info(location)
