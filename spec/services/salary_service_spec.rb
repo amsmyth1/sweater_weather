@@ -8,6 +8,13 @@ RSpec.describe "SalaryService", type: :feature do
       expect(urban_id).to eq("9xj65")
     end
   end
+  describe "::full_name(location)" do
+    it "hits an endpoint to get the city urban id" do
+      full_name = SalaryService.full_name("denver")
+
+      expect(full_name).to eq("Denver, Colorado")
+    end
+  end
   describe "::city_all_salary_info(location)" do
     it "hits an endpoint to get the city urban id" do
       info = SalaryService.city_all_salary_info("denver")
