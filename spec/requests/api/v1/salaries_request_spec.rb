@@ -21,7 +21,6 @@ RSpec.describe "Urban Area Salaries API Endpoint" do
       expect(philly_info[:data][:attributes][:salaries].first[:title]).to be_a(String)
       expect(philly_info[:data][:attributes][:salaries].first[:min]).to be_a(String)
       expect(philly_info[:data][:attributes][:salaries].first[:max]).to be_a(String)
-      expect(philly_info[:data][:attributes][:salaries].count).to is_less_than_or_equal_to(7)
       expect(philly_info[:data][:attributes][:forecast]).to be_a(Hash)
       expect(philly_info[:data][:attributes][:forecast].keys).to eq([:summary, :temperature])
     end
