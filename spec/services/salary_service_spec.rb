@@ -8,11 +8,25 @@ RSpec.describe "SalaryService", type: :feature do
       expect(urban_id).to eq("9xj65")
     end
   end
-  describe "::full_name(location)" do
+  describe "::search_ua_id - sad path" do
+    it "hits an endpoint to get the city urban id" do
+      urban_id = SalaryService.search_ua_id("jasndvjhasd")
+
+      expect(urban_id).to eq(nil)
+    end
+  end
+  describe "::full_name(location) - happy path" do
     it "hits an endpoint to get the city urban id" do
       full_name = SalaryService.full_name("denver")
 
       expect(full_name).to eq("Denver, Colorado")
+    end
+  end
+  describe "::full_name(location) - sad path" do
+    it "hits an endpoint to get the city urban id" do
+      urban_id = SalaryService.search_ua_id("jasndvjhasd")
+
+      expect(urban_id).to eq(nil)
     end
   end
   describe "::city_all_salary_info(location)" do
