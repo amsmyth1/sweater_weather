@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "SalaryService", type: :feature do
-  describe "::search_ua_id" do
+  describe "::search_ua_id - happy path" do
     it "hits an endpoint to get the city urban id" do
       urban_id = SalaryService.search_ua_id("denver")
 

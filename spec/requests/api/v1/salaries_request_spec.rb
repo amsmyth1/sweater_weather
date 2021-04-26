@@ -26,4 +26,11 @@ RSpec.describe "Urban Area Salaries API Endpoint" do
       expect(philly_info[:data][:attributes][:forecast].keys).to eq([:summary, :temperature])
     end
   end
+  describe "sad path" do
+    it "returns an error if the city is not recognizable " do
+      get "/api/v1/salaries?destination=jkansfdkjasdnfjksandc"
+      expect(response).to be_successful
+      expect(response.status).to eq(204)
+    end
+  end
 end
