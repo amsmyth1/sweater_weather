@@ -1,5 +1,13 @@
 class SalariesFacade
 
+  def self.location_check?(location)
+    if SalaryService.search_ua_id(location) == nil
+      false
+    else
+      true
+    end
+  end
+
   def self.final_city_info(location)
     city_info = {}
     city_info[:destination] = location
