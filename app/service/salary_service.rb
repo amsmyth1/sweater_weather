@@ -26,12 +26,16 @@ class SalaryService
 
   def self.city_all_salary_info(location)
     response = Faraday.get("https://api.teleport.org/api/urban_areas/teleport:#{search_ua_id(location)}/salaries/")
-    raw_data = JSON.parse(response.body, symbolize_names: true)
-    salaries = []
-    raw_data[:salaries].map do |salary|
-      salaries << salary_info(salary)
-    end
-    salaries
+    if response.body == "Sorry, but the page you were trying to view does not exist."
+      nil
+    else
+      raw_data = JSON.parse(response.body, symbolize_names: true)
+      salaries = []
+      raw_data[:salaries].map do |salary|
+        salaries << salary_info(salary)
+      end
+      salaries
+    end 
   end
 
   def self.salary_info(salary)

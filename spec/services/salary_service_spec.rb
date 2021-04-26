@@ -29,13 +29,20 @@ RSpec.describe "SalaryService", type: :feature do
       expect(urban_id).to eq(nil)
     end
   end
-  describe "::city_all_salary_info(location)" do
+  describe "::city_all_salary_info(location) - happy" do
     it "hits an endpoint to get the city urban id" do
       info = SalaryService.city_all_salary_info("denver")
 
       expect(info).to be_an(Array)
       expect(info.first).to be_a(Hash)
       expect(info.first.keys).to eq([:title, :min, :max])
+    end
+  end
+  describe "::city_all_salary_info(location) - sad" do
+    it "hits an endpoint to get the city urban id" do
+      info = SalaryService.city_all_salary_info("jhancjasnc")
+
+      expect(info).to eq(nil)
     end
   end
   describe "::salary_info(salary)" do
