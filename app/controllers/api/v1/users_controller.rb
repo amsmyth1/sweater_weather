@@ -5,7 +5,6 @@ class Api::V1::UsersController < ApplicationController
       user = user_params
       user[:email] = user[:email].downcase
       existing_user = User.find_by(email: user[:email])
-
       user = User.find_or_create(user)
       if user.id == nil
         render json: UserErrorSerializer.new, status: 400
@@ -21,7 +20,7 @@ class Api::V1::UsersController < ApplicationController
 
   private
   def user_params
-    params.permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password_digest, :password_confirmation)
   end
 
   def clean_params?(param_categories)
@@ -30,5 +29,6 @@ class Api::V1::UsersController < ApplicationController
       return false if params[param_category] == ""
       true
     end
+    true
   end
 end

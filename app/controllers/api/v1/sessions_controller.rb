@@ -1,6 +1,5 @@
 class Api::V1::SessionsController < ApplicationController
   def create
-    binding.pry
     if clean_params?([:email, :password])
       user = User.find_by(email: params[:email].downcase)
       if user && user.authenticate(params[:password])
