@@ -16,16 +16,10 @@ RSpec.describe "Road Trip API Endpoint" do
         api_key: "#{@created_user.api_key}"
       })
       headers = {"CONTENT_TYPE" => "application/json"}
-
       post "/api/v1/road_trip", headers: headers, params: JSON.generate(user_params)
-      # created_road_trip = RoadTrip.last
 
       expect(response).to be_successful
       expect(response.status).to eq(201)
-      # expect(created_road_trip.orgin).to eq(road_trip_params[:orgin])
-      # expect(created_road_trip.destinationl).to eq(road_trip_params[:destination])
-      # expect(@created_user.api_key).to eq(road_trip_params[:api_key])
-
       data = JSON.parse(response.body, symbolize_names: true)[:data]
 
       expect(data[:id]).to eq(nil)
