@@ -5,7 +5,7 @@ RSpec.describe "User Registration API Endpoint" do
     it "creates and new user and returns their email and new api key when they are successfully registered" do
       user_params = ({
         email: "whatever@example.com",
-        password: "password",
+        password_digest: "password",
         password_confirmation: "password"
       })
       headers = {"CONTENT_TYPE" => "application/json"}
@@ -32,7 +32,7 @@ RSpec.describe "User Registration API Endpoint" do
     it "finds an existing user if emails matches and returns their email and stored api key when they try to reregister" do
       user_params = ({
         email: "whatever@example.com",
-        password: "password",
+        password_digest: "password",
         password_confirmation: "password"
       })
       headers = {"CONTENT_TYPE" => "application/json"}
@@ -42,7 +42,7 @@ RSpec.describe "User Registration API Endpoint" do
 
       user_params = ({
         email: "whatever@example.com",
-        password: "password",
+        password_digest: "password",
         password_confirmation: "password"
       })
       headers = {"CONTENT_TYPE" => "application/json"}

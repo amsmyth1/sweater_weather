@@ -7,10 +7,7 @@ RSpec.describe "User Login API Endpoint" do
       password: "password",
       password_confirmation: "password"
     })
-    headers = {"CONTENT_TYPE" => "application/json"}
-
-    post "/api/v1/users", headers: headers, params: JSON.generate(user_params)
-    @created_user = User.last
+    @created_user = User.create(user_params)
   end
 
   describe "user session happy path" do
