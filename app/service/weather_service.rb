@@ -21,6 +21,24 @@ class WeatherService
     city_info[:photo_key_word] = current_weather_data(raw_data)[:conditions]
     city_info
   end
+  def self.get_city_weather_by_future_time(coords, time)
+    response = Faraday.get("https://api.openweathermap.org/data/2.5/onecall?lat=#{coords[:lat]}&lon=#{coords[:lng]}&exclude=alerts,minutely&appid=#{ENV['weather_api_key']}&units=imperial")
+    raw_data = JSON.parse(response.body, symbolize_names: true)
+    city_info = {}
+    time_in_hours = time / 60
+    if time_in_hours <= 48
+      if time % 60 > 30
+        city_info[:temperature] = raw_data[:hourly][1 + (time_in_hours)][:temp]
+        city_info[:conditions] =  raw_data[:hourly][1 + (time_in_hours)][:weather].first[:description]
+      else
+        city_info[:temperature] = raw_data[:hourly][(time_in_hours)][:temp]
+        city_info[:conditions] = raw_data[:hourly][(time_in_hours)][:weather].first[:description]
+      end
+    else time_in_hours <= (7 * 24)
+      binding.pry
+    end
+    city_info
+  end
 
   def self.daily_weather_data(raw_data)
     raw_data[:daily].first(5).map do |daily_raw_data|

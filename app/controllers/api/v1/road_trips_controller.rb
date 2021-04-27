@@ -10,8 +10,9 @@ class Api::V1::RoadTripsController < ApplicationController
     road_trip = {}
     road_trip[:start_city] = params[:origin]
     road_trip[:end_city] = params[:destination]
-    road_trip[:travel_time] = trip_duration(params[:origin], params[:destination])
-    road_trip[:weather_at_eta] = {}
+    road_trip[:travel_time] = "#{trip_duration(params[:origin], params[:destination])[0,2]} hours, #{trip_duration(params[:origin], params[:destination])[3,2]} minutes"
+    road_trip[:duration_unix] = duration_unix(params[:origin], params[:destination])
+    road_trip[:weather_at_eta] = weather(params[:destination], road_trip[:duration_unix])
     OpenStruct.new(road_trip)
   end
 
@@ -19,6 +20,16 @@ class Api::V1::RoadTripsController < ApplicationController
     response = Faraday.get("http://www.mapquestapi.com/directions/v2/route?key=#{ENV['mapquest_api_key']}&from=#{origin}&to=#{destination}")
     raw_data = JSON.parse(response.body, symbolize_names: true)
     time = raw_data[:route][:formattedTime]
-    "#{time[0,2]} hours, #{time[3,2]} minutes"
+  end
+  def duration_unix(origin, destination)
+    response = Faraday.get("http://www.mapquestapi.com/directions/v2/route?key=#{ENV['mapquest_api_key']}&from=#{origin}&to=#{destination}")
+    raw_data = JSON.parse(response.body, symbolize_names: true)
+    time_in_seconds = raw_data[:route][:realTime]
+    time_in_minutes = time_in_seconds / 60
+  end
+
+  def weather(destination, duration)
+    coordinates = MapQuestService.coordinates(location)
+    weather_info = WeatherService.get_city_weather_by_future_time(coordinates, duration)
   end
 end
