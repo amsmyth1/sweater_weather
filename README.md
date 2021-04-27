@@ -82,6 +82,7 @@ Below is an example of how the API application is designed to consume multiple A
 
 #### Postman
 View API endpoints consumed on [Postman](https://www.getpostman.com/collections/d339161ea943b1f5e890)
+View API endpoints exposted on [Postman](https://www.getpostman.com/collections/b4303ee7199f8b818552)
 
 ### Endpoints
 
