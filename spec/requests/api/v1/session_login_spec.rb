@@ -57,5 +57,15 @@ RSpec.describe "User Login API Endpoint" do
 
       expect(data[:error]).to eq("a field is not correct")
     end
+    it "creates and new user and returns their email and new api key when they are successfully registered" do
+      user_params = ({email: ""})
+      headers = {"CONTENT_TYPE" => "application/json"}
+      post "/api/v1/sessions", headers: headers, params: JSON.generate(user_params)
+
+      expect(response.status).to eq(401)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:error]).to eq("a field is not correct")
+    end
   end
 end
