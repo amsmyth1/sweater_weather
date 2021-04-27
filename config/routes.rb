@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   post "/api/v1/users", to:"api/v1/users#register"
   post "api/v1/sessions", to:"api/v1/sessions#create"
   get "/api/v1/salaries", to:"api/v1/salaries#city_info"
-
+  post "/api/v1/road_trip", to:"api/v1/road_trips#create"
 end
