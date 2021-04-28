@@ -7,13 +7,13 @@ class MapQuestService
       coordinates = {:lat=>39.738453, :lng=>-104.984853}
     else
       coordinates = raw_coordinate_data[:results].first[:locations].first[:latLng]
-      # location_data = {
-      #   lat: coordinates[:lat],
-      #   lng: coordinates[:lng],
-      #   city: "#{raw_coordinate_data[:results].first[:locations].first[:adminArea5]}",
-      #   state: "#{raw_coordinate_data[:results].first[:locations].first[:adminArea5]}"}
-      # Location.create(location_data)
     end
     coordinates
+  end
+
+  def self.trip_duration(origin, destination)
+    response = Faraday.get("http://www.mapquestapi.com/directions/v2/route?key=#{ENV['mapquest_api_key']}&from=#{origin}&to=#{destination}")
+    raw_data = JSON.parse(response.body, symbolize_names: true)
+    time = raw_data[:route][:formattedTime]
   end
 end

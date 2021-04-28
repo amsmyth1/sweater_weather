@@ -28,7 +28,7 @@ class WeatherService
     city_info = {}
     if time[0,2].to_i < 1
       city_info[:temperature] = raw_data[:current][:temp]
-      city_info[:conditions] = raw_data[:current][:weather][:description]
+      city_info[:conditions] = raw_data[:current][:weather].first[:description]
     else time[0,2].to_i >= 1 && time[0,2].to_i < 49
       city_info[:temperature] = raw_data[:hourly][time[0,2].to_i][:temp]
       city_info[:conditions] = raw_data[:hourly][time[0,2].to_i][:weather].first[:description]
