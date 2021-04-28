@@ -2,11 +2,15 @@ class RoadtripsFacade
 
   def self.create_roadtrip(params)
     road_trip = {}
-    road_trip[:start_city] = params[:origin]
-    road_trip[:end_city] = params[:destination]
-    road_trip[:travel_time] = "#{trip_duration(params[:origin], params[:destination])[0,2]} hours, #{trip_duration(params[:origin], params[:destination])[3,2]} minutes"
-    road_trip[:weather_at_eta] = weather(params[:destination], trip_duration(params[:origin], params[:destination]))
-    OpenStruct.new(road_trip)
+    if trip_duration(params[:origin], params[:destination]) != nil
+      road_trip[:start_city] = params[:origin]
+      road_trip[:end_city] = params[:destination]
+      road_trip[:travel_time] = "#{trip_duration(params[:origin], params[:destination])[0,2]} hours, #{trip_duration(params[:origin], params[:destination])[3,2]} minutes"
+      road_trip[:weather_at_eta] = weather(params[:destination], trip_duration(params[:origin], params[:destination]))
+      OpenStruct.new(road_trip)
+    else
+      []
+    end
   end
 
   def self.trip_duration(origin, destination)
