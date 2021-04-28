@@ -62,18 +62,14 @@ This project was tested with:
      - run `bundle exec figaro install`
      - add the below variables to the `config/application.yml`
    ```
-   open_weather_api_key = '<YOU_KEY_HERE>'
-   open_weather_units = 'imperial' or 'metric'
-   unsplash_client_id = '<YOU_KEY_HERE>'
-   unsplash_accept_version = 'v1'
-   unsplash_secret_key = '<YOU_KEY_HERE>'
-   mapquest_api_key = '<YOU_KEY_HERE>'
-   mapquest_unit = 'm' or 'k'
+   mapquest_api_key: '<YOU_KEY_HERE>'
+   weather_api_key: '<YOU_KEY_HERE>'
+   photo_api_key: '<YOU_KEY_HERE>'
 
    ```
 ### Project Design
 Below is an example of how the API application is designed to consume multiple APIs so the front end can easily hook into the exposed endpoints (noted in black).
-<p style="text-align:center;"><img src="sweater_weather_design.jpg" width="900"></p>
+<p style="text-align:center;"><img src="sweaterweather-design.jpg" width="900"></p>
 
 #### APIs Consumed
 - For location coordinates and roadtrip data: [MapQuest](https://developer.mapquest.com/)
@@ -93,3 +89,71 @@ View API endpoints exposted on [Postman](https://www.getpostman.com/collections/
 | POST | /api/v1/users | create a user account | [json](#create-user) |
 | POST | /api/v1/sessions | create a user session (login a user) | [json](#user-login) |
 | POST | /api/v1/road_trip | create a new road trip | [json](#new-road-trip) |
+
+### Application Design
+
+The application uses the Facade Design pattern. The controllers talk to the respective facades to get the necessary information packaged to the serializer.
+
+```ruby
+#Controller
+class Api::V1::SalariesController < ApplicationController
+
+  def city_info
+    if SalariesFacade.location_check?(params[:destination])
+      render json: SalariesSerializer.new(SalariesFacade.final_city_info(params[:destination]))
+    else
+      render json: NullSerializer.new, status: 204
+    end
+  end
+end
+
+```
+```ruby
+#Facade
+def self.location_check?(location)
+  if SalaryService.search_ua_id(location) == nil
+    false
+  else
+    true
+  end
+end
+
+def self.final_city_info(location)
+  city_info = {}
+  city_info[:destination] = location
+  city_info[:forecast] = city_forecast(location)
+  city_info[:salaries] = SalaryService.city_salary_info(location)
+  city_info
+  final_city_info = OpenStruct.new(city_info)
+end
+
+def self.city_forecast(location)
+  coords = MapQuestService.coordinates(SalaryService.full_name(location))
+  weather = WeatherService.get_city_info(coords)
+  forecast = {}
+  forecast[:summary] = weather[:current_weather][:conditions]
+  forecast[:temperature] = weather[:current_weather][:temperature]
+  forecast
+end
+end
+
+```
+```ruby
+#Service
+def self.city_all_salary_info(location)
+  response = Faraday.get("https://api.teleport.org/api/urban_areas/teleport:#{search_ua_id(location)}/salaries/")
+  if response.body == "Sorry, but the page you were trying to view does not exist."
+    nil
+  else
+    raw_data = JSON.parse(response.body, symbolize_names: true)
+    salaries = []
+    raw_data[:salaries].map do |salary|
+      salaries << salary_info(salary)
+    end
+    salaries
+  end
+end
+...
+
+
+```
