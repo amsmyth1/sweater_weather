@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "User Registration API Endpoint" do
-  describe "user registration happy path" do
+  describe "user registration - happy path" do
     it "creates and new user and returns their email and new api key when they are successfully registered" do
       user_params = ({
         email: "whatever@example.com",
